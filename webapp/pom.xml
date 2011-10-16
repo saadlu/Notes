@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-Instance"
+         xsi:xmlSchemaLocation="http://maven.apache.org/POM/4.0.0
+                                http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.mashrur.tryouts.jsp</groupId>
+    <artifactId>first-jsp</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.webappDirectory>src/main/webapp</project.build.webappDirectory>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xdoclet-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xdoclet</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <webdoclet destdir="${project.build.outputDirectory}">
+				  
+				  <fileset 
+				      dir="${project.build.sourceDirectory}" 
+				      includes="**/servlets/*.java"/>
+				 
+				   <fileset 
+				       dir="${project.build.sourceDirectory}" 
+				       includes="**/listeners/*.java"/>
+				 
+				   <fileset 
+				       dir="${project.build.sourceDirectory}" 
+				       includes="**/filters/*.java"/>
+				 
+				  <deploymentdescriptor
+				      destDir="${project.build.directory}/WEB-INF"
+				      />
+                                </webdoclet>
+                                
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+                    <webXml>${project.build.directory}/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <jbossHome>C:\\InstalledSofts\\jboss-4.2.3.GA</jbossHome>
+                    <fileName>target/${project.build.finalName}.war</fileName>
+                </configuration>
+            </plugin>
+
+            
+        </plugins>
+    </build>
+</project>
